@@ -12,7 +12,7 @@ const App = () => {
   const [waveMessage, setWaveMessage] = useState("");
   const [waveCount, setWaveCount] = useState("");
 
-  const contractAddress = "0xdC98778FF850b92bE22FC2ED740FAFb800d47da7";
+  const contractAddress = "0x173a8BD47034AdD2703c68e2844544B47c291c9C";
   const contractABI = abi.abi;
 
   /*
@@ -39,15 +39,13 @@ const App = () => {
          * We only need address, timestamp, and message in our UI so let's
          * pick those out
          */
-        let wavesCleaned = [];
-        waves.forEach((wave) => {
-          wavesCleaned.push({
+        const wavesCleaned = waves.map((wave) => {
+          return {
             address: wave.waver,
             timestamp: new Date(wave.timestamp * 1000),
             message: wave.message,
-          });
+          };
         });
-
         /*
          * Store our data in React State
          */
@@ -59,6 +57,43 @@ const App = () => {
       console.log(error);
     }
   };
+
+  /**
+   * Listen in for emitter events!
+   */
+  useEffect(() => {
+    let wavePortalContract;
+
+    const onNewWave = (from, timestamp, message) => {
+      console.log("NewWave", from, timestamp, message);
+      setAllWaves((prevState) => [
+        ...prevState,
+        {
+          address: from,
+          timestamp: new Date(timestamp * 1000),
+          message: message,
+        },
+      ]);
+    };
+
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      wavePortalContract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        signer
+      );
+      wavePortalContract.on("NewWave", onNewWave);
+    }
+
+    return () => {
+      if (wavePortalContract) {
+        wavePortalContract.off("NewWave", onNewWave);
+      }
+    };
+  }, []);
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -156,7 +191,7 @@ const App = () => {
   // TO FIX
   useEffect(() => {
     getAllWaves();
-  }, [waveCount]);
+  }, []);
 
   return (
     <div className="mainContainer">
