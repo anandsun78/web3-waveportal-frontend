@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { wavePortalConstants } from "../../constants/contractConstants";
 import abi from "../WavePortal.json";
 
+// function to send waves using the wave smart contract
 const wave = async (waveMessage) => {
   const contractAddress = wavePortalConstants.ADDRESS;
   const contractABI = abi.abi;
@@ -22,7 +23,7 @@ const wave = async (waveMessage) => {
       console.log("Retrieved total wave count...", count.toNumber());
 
       /*
-       * Execute the actual wave from your smart contract
+       * Execute the wave in the wave smart contract
        */
       const waveTxn = await wavePortalContract.wave(waveMessage, {
         gasLimit: 300000,

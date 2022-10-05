@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import abi from "../utils/WavePortal.json";
 import { Form, Button } from "react-bootstrap";
+import abi from "../utils/WavePortal.json";
 import { wavePortalConstants } from "../constants/contractConstants";
 import wave from "../utils/functions/wave";
 import connectWallet from "../utils/functions/connectWallet";
@@ -60,11 +60,10 @@ const HomePage = () => {
     checkIfWalletIsConnected();
   }, []);
 
-  // TO FIX
   useEffect(() => {
     const fetchData = async () => {
       const data = await getAllWaves();
-      setAllWaves(data);
+      if (typeof data === "object" && data !== null) setAllWaves(data);
     };
     fetchData();
   }, []);
@@ -72,7 +71,12 @@ const HomePage = () => {
   return (
     <div className="mainContainer">
       <div className="dataContainer">
-        <div className="header">👋 Hey there!</div>
+        <div className="header">
+          Hey there!{" "}
+          <span role="img" aria-label="Smile">
+            👋
+          </span>
+        </div>
 
         <div className="bio">This is Anand</div>
 

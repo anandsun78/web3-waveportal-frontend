@@ -1,3 +1,7 @@
+/*
+  Function to check if user's wallet is connected properly
+*/
+
 const checkIfWalletIsConnected = async () => {
   try {
     const { ethereum } = window;
@@ -10,7 +14,7 @@ const checkIfWalletIsConnected = async () => {
     }
 
     /*
-     * Check if we're authorized to access the user's wallet
+     * Check if authorized to access the user's wallet
      */
     const accounts = await ethereum.request({ method: "eth_accounts" });
 

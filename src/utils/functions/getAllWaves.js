@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { wavePortalConstants } from "../../constants/contractConstants";
 import abi from "../WavePortal.json";
 
+// function to interact with smart contract and retrieve all the current waves
 const getAllWaves = async () => {
   const contractAddress = wavePortalConstants.ADDRESS;
   const contractABI = abi.abi;
@@ -18,13 +19,12 @@ const getAllWaves = async () => {
       );
 
       /*
-       * Call the getAllWaves method from your Smart Contract
+       * Call the getAllWaves method
        */
       const waves = await wavePortalContract.getAllWaves();
       console.log("Getting wave count");
       /*
-       * We only need address, timestamp, and message in our UI so let's
-       * pick those out
+       * Only need address, timestamp, and message in the UI
        */
       const wavesCleaned = waves.map((wave) => {
         return {
@@ -33,9 +33,7 @@ const getAllWaves = async () => {
           message: wave.message,
         };
       });
-      /*
-       * Store our data in React State
-       */
+
       return wavesCleaned;
     } else {
       console.log("Ethereum object doesn't exist!");

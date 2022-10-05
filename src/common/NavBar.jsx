@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
+import React from "react";
+import { Link } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
 const NavBar = () => {
   return (
     <nav>
       <Navbar className="mb-4 border-bottom" bg="transparent" expand="lg">
-        <Navbar.Brand>Redflag Deals Tracker App</Navbar.Brand>
+        <Navbar.Brand>Web3 Wave Portal App</Navbar.Brand>
         <Navbar.Toggle className="border-0" aria-controls="navbar-toggle" />
         <Navbar.Collapse id="navbar-toggle">
           <Nav className="ml-auto">
